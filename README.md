@@ -37,7 +37,9 @@ Library functions
 # TODO:
 + drag trackbar to play from x seconds
 + settings menu :for lastfm (api key & secret, user info), database info, audio device, default volume on startup
-+ script to create database if none exists
++ script to create database if none exists (26/7 sql done, implement in c#)
++ sql (create new table: artist id + library id)
++ search field + filters
 + gui change play buttons
 + icon for taskbar
 + mini next prev pause/play button for mini window on taskbar (see spotify)
