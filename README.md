@@ -21,6 +21,7 @@ Media functions:
 + set position in track (not possible yet, it's read only)
 + next, previous (start of song if more than >20% played)
 + which audiodevice to play on? (list of available audio devices)
++ now playing in title bar
 
 Library functions
 + Load and actually play songs (dbugging and testing, can play every song loaded in database)
@@ -33,8 +34,12 @@ Library functions
 
 
 # TODO:
++ gui change play buttons
++ icon for taskbar
++ mini next prev pause/play button for mini window on taskbar (see spotify)
 + click on artist image -> play artist
 + click on artist name -> detail view (list every album + art + each song) + biography (+ social media)?
++ Shuffle / repeat
 + list all albums
 + download missing album arts + save in db
 + click on album art to play whole album
@@ -51,5 +56,6 @@ When remote is finished
 + add equalizer
 + add music visuals
 + add music lyric
++ posibility to play youtubesongs?
 + create webapi to access database
 + stream to android app
