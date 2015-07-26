@@ -10,30 +10,34 @@ At first this will just have to work as a basic media player
 As this program is still in a test phase I do not advice anyone to use it. It works, but all data is localized, you'll have to use your own mysql/mssql servers
 
 # Working functions:
-import music:
-+ Scan specific directories for MP3s
-+ Get mp3 tags for said MP3s (title, artist, song, albums, track, length, year, genre, ...)
-+ Import into database
+import music: (11/7 - 12/7)
++ Scan specific directories for MP3s (11/7 - 12/7)
++ Get mp3 tags for said MP3s (title, artist, song, albums, track, length, year, genre, ...) (11/7 - 12/7)
++ Import into database (11/7 - 12/7)
 
 Media functions:
-+ Play, Pause, Resume, stop
-+ set volume 
-+ set position in track (not possible yet, it's read only)
-+ next, previous (start of song if more than >20% played)
-+ which audiodevice to play on? (list of available audio devices)
-+ now playing in title bar
++ Play, Pause, Resume, stop (18/7 - 19/7)
++ set volume (18/7 - 19/7)
++ set position in track (not possible yet, it's read only) (18/7 - 19/7)
++ next, previous (start of song if more than >20% played) (18/7 - 19/7)
++ which audiodevice to play on? (list of available audio devices) (18/7 - 19/7)
++ now playing in title bar (26/7)
++ save last used audio device and volume in settings for next startup (18/7 - 19/7)
 
 Library functions
-+ Load and actually play songs (dbugging and testing, can play every song loaded in database)
-+ Get all data from database (artists, albums, songs)
-+ create allartist overview
-+ use last.fm to get images of artists and save image to database if there is none (no need to download all the time)
-+ change normal wpf app to metro app (working on gui elements)
++ Load and actually play songs (dbugging and testing, can play every song loaded in database) (18/7 - 19/7)
++ Get all data from database (artists, albums, songs) (11/7 - 12/7)
++ create allartist overview (25/7 - 26/7)
++ use last.fm to get images of artists and save image to database if there is none (no need to download all the time) (25/7)
++ change normal wpf app to metro app (working on gui elements) (25/7 - 26/7)
 
 
 
 
 # TODO:
++ drag trackbar to play from x seconds
++ settings menu :for lastfm (api key & secret, user info), database info, audio device, default volume on startup
++ script to create database if none exists
 + gui change play buttons
 + icon for taskbar
 + mini next prev pause/play button for mini window on taskbar (see spotify)
@@ -44,6 +48,9 @@ Library functions
 + download missing album arts + save in db
 + click on album art to play whole album
 + click on album name to list album details
++ favoritize artist/album/song and auto add to playlist
++ option to only load favorites
++ most played
 + create and Save playlist (either file or db)
 + possibility for more than one library / database (for example, library for party music, normal music, ...)
 + set track to listened on lastfm when played for more than 30 seconds
@@ -52,7 +59,7 @@ When the music library is working as planned, other things to do
 + add serverlistener (listen for commands)
 + create webbased api or android application to control mediaplayer
 
-When remote is finished
+Other: 
 + add equalizer
 + add music visuals
 + add music lyric
