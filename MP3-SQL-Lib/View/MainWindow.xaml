@@ -1,0 +1,103 @@
+﻿<metro:MetroWindow x:Class="MP3_SQL_Lib.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:MP3_SQL_Lib.ViewModel"
+        xmlns:v="clr-namespace:MP3_SQL_Lib.View"
+        Title="{Binding Title}" Height="900" Width="1400" Name="Window" 
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:cmd ="http://www.galasoft.ch/mvvmlight"
+        xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:Behaviours="clr-namespace:MahApps.Metro.Behaviours;assembly=MahApps.Metro">
+    <!-- old way
+    WindowStyle="None" ResizeMode="NoResize"
+    -->
+    <!-- borderless wpf met metro zonder metro window
+    <i:Interaction.Behaviors>
+        <Behaviours:BorderlessWindowBehavior/>
+    </i:Interaction.Behaviors>-->
+
+
+
+
+
+    <metro:MetroWindow.RightWindowCommands>
+        <metro:WindowCommands>
+            <Button Content="settings" />
+        </metro:WindowCommands>
+    </metro:MetroWindow.RightWindowCommands>
+
+
+
+
+
+
+
+    <Window.DataContext>
+        <vm:ApplicationVM />
+    </Window.DataContext>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Light Theme -->
+                <!--<ResourceDictionary Source="Themes/Metro/Light/Metro.MSControls.Core.Implicit.xaml" />
+                <ResourceDictionary Source="Themes/Metro/Light/Metro.MSControls.Toolkit.Implicit.xaml" />-->
+                <!-- Dark Theme -->
+                <ResourceDictionary Source="../Themes/MetroDark/MetroDark.MSControls.Core.Implicit.xaml" />
+                <ResourceDictionary Source="../Themes/MetroDark/MetroDark.MSControls.Toolkit.Implicit.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            
+            
+            
+            
+            
+            
+            <DataTemplate DataType="{x:Type vm:PageOneVM}">
+                <v:PageOne/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:PlayBarVM}">
+                <v:PlayBar/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:BrowseArtistsVM}">
+                <v:BrowseArtists/>
+            </DataTemplate>
+        </ResourceDictionary>
+        
+    </Window.Resources>
+    <!-- OLD WAY
+    <Grid Margin="0" Background="{StaticResource BackgroundKey}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Name="grid1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="10"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="15"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+        <Rectangle Fill="{StaticResource BackgroundKey}" Name="top"          Grid.Row="0" Grid.Column="1" MouseEnter="DisplayResizeCursor" MouseLeave="ResetCursor" MouseDown="top_MouseDown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <Rectangle Fill="{StaticResource BackgroundKey}" Name="right"        Grid.Row="1" Grid.Column="2" MouseEnter="DisplayResizeCursor" MouseLeave="ResetCursor" PreviewMouseDown="Resize" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <Rectangle Fill="{StaticResource BackgroundKey}" Name="bottom"       Grid.Row="2" Grid.Column="1" MouseEnter="DisplayResizeCursor" MouseLeave="ResetCursor" PreviewMouseDown="Resize" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <Rectangle Fill="{StaticResource BackgroundKey}" Name="left"         Grid.Row="1" Grid.Column="0" MouseEnter="DisplayResizeCursor" MouseLeave="ResetCursor" PreviewMouseDown="Resize" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <Rectangle Fill="{StaticResource BackgroundKey}" Name="topRight"     Grid.Row="0" Grid.Column="2" MouseEnter="DisplayResizeCursor" MouseLeave="ResetCursor" PreviewMouseDown="Resize" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <Rectangle Fill="{StaticResource BackgroundKey}" Name="bottomRight"  Grid.Row="2" Grid.Column="2" MouseEnter="DisplayResizeCursor" MouseLeave="ResetCursor" PreviewMouseDown="Resize" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <Rectangle Fill="{StaticResource BackgroundKey}" Name="bottomLeft"   Grid.Row="2" Grid.Column="0" MouseEnter="DisplayResizeCursor" MouseLeave="ResetCursor" PreviewMouseDown="Resize" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <Rectangle Fill="{StaticResource BackgroundKey}" Name="topLeft"      Grid.Row="0" Grid.Column="0" MouseEnter="DisplayResizeCursor" MouseLeave="ResetCursor" PreviewMouseDown="Resize" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+    <Grid Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    -->
+    <Grid Margin="0" Background="{StaticResource BackgroundKey}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <ContentControl Content="{Binding BrowseArtists}" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="3" Margin="5,0,5,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <ContentControl Content="{Binding PlayBar}" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="3" Margin="15" />
+        </Grid>
+    <!--</Grid-->
+</metro:MetroWindow>
