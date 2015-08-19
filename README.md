@@ -34,6 +34,8 @@ Library functions
 + change normal wpf app to metro app (working on gui elements) (25/7 - 26/7)
 
 
+unplanned work:
++ change CSCore audio (beta) to BASS audio library (18/08)
 
 
 # TODO:
