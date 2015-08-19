@@ -22,7 +22,9 @@ Media functions:
 + next, previous (start of song if more than >20% played) (18/7 - 19/7)
 + which audiodevice to play on? (list of available audio devices) (18/7 - 19/7)
 + now playing in title bar (26/7)
-+ save last used audio device and volume in settings for next startup (18/7 - 19/7)
++ save last used audio device and volume in settings for next startup (18/7 - 19/7) (recheck for Bass.NET)
++ click on artist image -> play artist (18/08)
++ Shuffle (18/08)
 
 Library functions
 + Load and actually play songs (dbugging and testing, can play every song loaded in database) (18/7 - 19/7)
@@ -43,9 +45,8 @@ Library functions
 + gui change play buttons
 + icon for taskbar
 + mini next prev pause/play button for mini window on taskbar (see spotify)
-+ click on artist image -> play artist
 + click on artist name -> detail view (list every album + art + each song) + biography (+ social media)?
-+ Shuffle / repeat
++ repeat
 + list all albums
 + download missing album arts + save in db
 + click on album art to play whole album
@@ -57,14 +58,15 @@ Library functions
 + possibility for more than one library / database (for example, library for party music, normal music, ...)
 + set track to listened on lastfm when played for more than 30 seconds
 
-When the music library is working as planned, other things to do
-+ add serverlistener (listen for commands)
-+ create webbased api or android application to control mediaplayer
 
-Other: 
+
+
+#When the music library is working as planned, other things to do: 
 + add equalizer
 + add music visuals
 + add music lyric
 + posibility to play youtubesongs?
 + create webapi to access database
 + stream to android app
++ add serverlistener (listen for commands)
++ create webbased api or android application to control mediaplayer
