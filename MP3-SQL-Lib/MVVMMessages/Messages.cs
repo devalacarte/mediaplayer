@@ -13,6 +13,7 @@ namespace MP3_SQL_Lib.MVVMMessages
         public const string MUSIC_PAUSE = "MessageForMVVMLightMessengerMusicPausedStopTRackbar";
         public const string MUSIC_RESUME = "MessageForMVVMLightMessengerMusicResumedStartTRackbar";
         public const string MUSIC_STOPPED = "MessageForMVVMLightMessengerMusicStoppedForWhateverReason";
-        public const string MUSIC_PLAY_ARTIST = "MessageForMVVMLightMessengerMusicPlayArtistFromArtistID";
+        public const string ARTIST_PLAY = "MessageForMVVMLightMessengerMusicPlayArtistFromArtistID";
+        public const string ARTIST_VIEW = "MessageForMVVMLightMessengerShowArtistDetailViewFromArtistID";
     }
 }

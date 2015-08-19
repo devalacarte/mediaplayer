@@ -32,6 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Bass.Net, Version=2.4.11.1, Culture=neutral, PublicKeyToken=b7566c273e6ef480, processorArchitecture=MSIL" />
     <Reference Include="CSCore">
       <HintPath>..\packages\CSCore.1.0.0.0\lib\net35-client\CSCore.dll</HintPath>
     </Reference>
@@ -66,7 +67,8 @@
     <Compile Include="Database.cs" />
     <Compile Include="FileOperations.cs" />
     <Compile Include="LastFM.cs" />
-    <Compile Include="MusicPlayer.cs">
+    <Compile Include="MusicPlayerBASS.cs" />
+    <Compile Include="MusicPlayerCSCore.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

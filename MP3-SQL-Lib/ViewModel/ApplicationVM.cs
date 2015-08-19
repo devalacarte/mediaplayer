@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
+using GalaSoft.MvvmLight.Threading;
 using MP3_SQL_Lib.helper;
 using MP3_SQL_Lib.model;
 using System;
@@ -30,29 +31,63 @@ namespace MP3_SQL_Lib.ViewModel
         
         public ApplicationVM()
         {
-            Messenger.Default.Register<NotificationMessage<Song>>(this, (message) => NotificationMessageHandlerString(message));
+            GalaSoft.MvvmLight.Threading.DispatcherHelper.Initialize();
+            Messenger.Default.Register<NotificationMessage<Song>>(this, (message) => NotificationMessageHandlerSong(message));
+            Messenger.Default.Register<NotificationMessage<Artist>>(this, (message) => NotificationMessageHandlerArtist(message));
             
-            Pages.Add(new PageOneVM());
-            // Add other pages
-            /*Pages.Add(new PlayBarVM());*/
-            PlayBar = new PlayBarVM();
+            PlayBarBASS = new PlayBarBASSVM();
             BrowseArtists = new BrowseArtistsVM();
-            CurrentPage = Pages[0];
-            
-            
-            //ImportSQL("H:\\Alle Muziek\\Music", "*.mp3", true);
-            GetAllData();
+            CurrentPage = BrowseArtists;
 
+            //ImportSQL("H:\\Alle Muziek\\Music", "*.mp3", true);
+            //GetAllData();
+            //GetDataFromDB();
+
+            //test();
         }
 
+        /*private void test()
+        {
+            Task sqlTask = ImportSQL("H:\\muziek\\Alle Muziek", "*.mp3", true);
+            sqlTask.Wait();
+
+            sqlTask.ContinueWith(t => Task.Run(() => GetAllData()));
+        }*/
+
+        public ICommand LoadedCommand
+        {
+            get { return new RelayCommand(Loaded); }
+        }
+        private async void Loaded()
+        {
+            Task[] tasks = new Task[3];
+            //Task[] tasks = new Task[4];
+            tasks[0] = Task.Run(() => { Artists = ArtistDA.GetArtists(); });
+            tasks[1] = Task.Run(() => { Albums = AlbumDA.GetAlbums(); });
+            tasks[2] = Task.Run(() => { Songs = SongDA.GetSongs(); });
+            //tasks[3] = Task.Run(() => { System.Threading.Thread.Sleep(15000); });
+            await Task.WhenAll(tasks);
+            //PlayBarBASS.PlayList = Songs;
+            //PlayBarBASS.PlayListPos = 0;
+        }
 
         #region messages
         //message opvangen wanneer er muziek wordt afgespeeld, en de titlebar song + artist wijzigen
-        private void NotificationMessageHandlerString(NotificationMessage<Song> message)
+        private async void NotificationMessageHandlerSong(NotificationMessage<Song> message)
         {
             //throw new NotImplementedException();
             string song = message.Content.SongName;
-            Artist artist = Artists.First(x => x.ID == message.Content.ArtistID);
+            if (Artists == null)
+                return;
+            Artist artist = null;
+            try
+            {
+                artist = await Task<Artist>.Run(() => {return Artists.First(x => x.ID == message.Content.ArtistID);  });  //koppel song ArtistID aan artist name uit artistcollection
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("AppVM: NotificationMessageHandler: Can't find ArtistName from Song.ArtistID");                
+            }
             
             switch (message.Notification)
             {
@@ -78,6 +113,21 @@ namespace MP3_SQL_Lib.ViewModel
                     break;
             }
         }
+        private async void NotificationMessageHandlerArtist(NotificationMessage<Artist> message)
+        {
+            if (message.Notification == MVVMMessages.Messages.ARTIST_PLAY)
+            {
+                Artist ar = message.Content;
+                ObservableCollection<Song> songs = await Task<ObservableCollection<Song>>.Run(() => { return helper.SongDA.GetSongsByArtistID(ar.ID); });
+                PlayBarBASS.StopStream();
+                PlayBarBASS.PlayList = songs;
+                PlayBarBASS.PlayListPos = 0;
+            }
+            if(message.Notification == MVVMMessages.Messages.ARTIST_VIEW)
+            {
+
+            }
+        }
         #endregion messages
 
 
@@ -91,11 +141,11 @@ namespace MP3_SQL_Lib.ViewModel
             get { return currentPage; }
             set { currentPage = value; OnPropertyChanged("CurrentPage"); }
         }
-        private PlayBarVM _playBar;
-        public PlayBarVM PlayBar
+        private PlayBarBASSVM _playBarBASS;
+        public PlayBarBASSVM PlayBarBASS
         {
-            get { return _playBar; }
-            set { _playBar = value; OnPropertyChanged("PlayBar"); }
+            get { return _playBarBASS; }
+            set { _playBarBASS = value; OnPropertyChanged("PlayBarBASSVM"); }
         }
         private BrowseArtistsVM _browseArtists;
 
@@ -103,18 +153,6 @@ namespace MP3_SQL_Lib.ViewModel
         {
             get { return _browseArtists; }
             set { _browseArtists = value; OnPropertyChanged("BrowseArtists"); }
-        }
-        
-
-        private List<IPage> pages;
-        public List<IPage> Pages
-        {
-            get
-            {
-                if (pages == null)
-                    pages = new List<IPage>();
-                return pages;
-            }
         }
 
         public ICommand ChangePageCommand
@@ -179,7 +217,7 @@ namespace MP3_SQL_Lib.ViewModel
             set { _artists = value; OnPropertyChanged("Artists"); }
         }
         
-        private async void GetAllData()
+        /*private async void GetAllData()
         {
 
             Task taskData = GetAllDataTask();
@@ -199,15 +237,32 @@ namespace MP3_SQL_Lib.ViewModel
 
         private async Task GetAllDataLoadedTask()
         {
-            PlayBar.PlayList = Songs;
-            PlayBar.PlayListPos = 0;
+            PlayBarBASS.PlayList = Songs;
+            PlayBarBASS.PlayListPos = 0;
             BrowseArtists.Artists = await Task.Run(() => ArtistDA.GetArtists());
             //int res = await CheckArtistImages();
+        }*/
+        private void GetDataFromDB()
+        {
+            Task task = GetDataFromDBTask();
+        }
+        private async Task GetDataFromDBTask()
+        {
+            Task[] tasks = new Task[3];
+            tasks[0] = Task.Run(() => {Artists = ArtistDA.GetArtists();});
+            tasks[1] = Task.Run(() => {Albums = AlbumDA.GetAlbums();});
+            tasks[2] = Task.Run(() => {Songs = SongDA.GetSongs();});
+            await Task.WhenAll(tasks);
+        }
+        private async Task GetDataFromDBTaskTWo()
+        {
+            await Task.Run(() =>
+            {
+                Artists = ArtistDA.GetArtists();
+            });
         }
 
-
         #endregion CollectionProperties AND GetData
-
 
         private async Task<int> CheckArtistImages()
         {

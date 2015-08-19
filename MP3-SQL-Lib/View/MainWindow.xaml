@@ -17,7 +17,11 @@
     </i:Interaction.Behaviors>-->
 
 
-
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
 
 
     <metro:MetroWindow.RightWindowCommands>
@@ -54,7 +58,7 @@
             <DataTemplate DataType="{x:Type vm:PageOneVM}">
                 <v:PageOne/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type vm:PlayBarVM}">
+            <DataTemplate DataType="{x:Type vm:PlayBarBASSVM}">
                 <v:PlayBar/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type vm:BrowseArtistsVM}">
@@ -97,7 +101,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <ContentControl Content="{Binding BrowseArtists}" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="3" Margin="5,0,5,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <ContentControl Content="{Binding PlayBar}" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="3" Margin="15" />
+        <ContentControl Content="{Binding PlayBarBASS}" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="3" Margin="15" />
         </Grid>
     <!--</Grid-->
 </metro:MetroWindow>

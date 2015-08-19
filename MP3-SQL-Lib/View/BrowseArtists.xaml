@@ -27,25 +27,44 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <v:SingleArtistUC Artist="{Binding}" Background="{StaticResource color_bgelements}"/>
-                    <!--<Grid>
+                    <!--<v:SingleArtistUC Artist="{Binding}" Background="{StaticResource color_bgelements}"/>-->
+                    <Grid Width="120" Margin="10" Background="{StaticResource color_bgelements}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="120"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <Image Source="{Binding ImageURL, Converter={StaticResource ImageConv}}"/>
+                        <Button Command="{Binding DataContext.PlayArtistCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}" Grid.Column="1" Style="{StaticResource ArtistButtonImage}">
+                            <ContentControl>
+                                <Grid>
+                                    <Image Source="{Binding Image, Converter={StaticResource ImageByteConv}}" Height="120" Width="120" Stretch="UniformToFill"/>
+                                    <Image Source="..\Resources\Images\noimage.png" Stretch="UniformToFill" Style="{StaticResource ArtistButtonImageHover}"/>
+                                </Grid>
+                            </ContentControl>
+                        </Button>
 
+                        <!--<Image Source="..\Resources\Images\noimage.png" Height="120" Width="120" Grid.Row="0" Grid.Column="0" Stretch="UniformToFill"/>-->
                         <Grid Grid.Row="1">
                             <Grid.ColumnDefinitions>
+
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="60"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            <TextBlock Text="{Binding ArtistName, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="0" Margin="0,0,5,0" FontSize="16"/>
-                            <Button Content="Play" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Center" Margin="0,0,0,5" Style="{StaticResource TransButton}"/>
+                            <!--<TextBlock Text="{Binding Artist.ArtistName, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" TextWrapping="Wrap" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="0" Margin="5" FontSize="12" TextAlignment="Center"/>-->
+                            <!--<TextBlock Text="ik wil graag twee lijntjes tekst" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Stretch" Grid.Column="0" Grid.Row="0" Margin="0,10,0,5" FontSize="12" TextAlignment="Center"/>-->
+
+                            <Button Command="{Binding DataContext.ViewArtistDetailCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}" Background="{StaticResource color_bgbutton}" BorderBrush="Transparent" BorderThickness="0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="0,10,0,5" Grid.Column="0" Grid.Row="0">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <ContentPresenter />
+                                    </ControlTemplate>
+                                </Button.Template>
+                                <TextBlock Text="{Binding ArtistName}" Style="{StaticResource TextInfo}" TextAlignment="Center"/>
+                            </Button>
+                            <!-- <Button Command="{Binding CMDPlayArtist, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" Tag="{Binding Artist.ID, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" Content="Play" Grid.Column="1" HorizontalAlignment="Stretch" Grid.Row="1" VerticalAlignment="Stretch" Margin="0,5,0,5" Style="{StaticResource TransButton}"/>-->
                         </Grid>
-                    </Grid>-->
+                    </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

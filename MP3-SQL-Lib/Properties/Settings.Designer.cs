@@ -25,7 +25,7 @@ namespace MP3_SQL_Lib.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("3")]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
         public int SoundCard {
             get {
                 return ((int)(this["SoundCard"]));
@@ -67,6 +67,18 @@ namespace MP3_SQL_Lib.Properties {
             }
             set {
                 this["SaveImages"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SoundCardName {
+            get {
+                return ((string)(this["SoundCardName"]));
+            }
+            set {
+                this["SoundCardName"] = value;
             }
         }
     }

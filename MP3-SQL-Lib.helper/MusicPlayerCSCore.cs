@@ -11,7 +11,34 @@ using System.Threading.Tasks;
 
 namespace MP3_SQL_Lib.helper
 {
-    public class MusicPlayer : Component
+    public static class CSAudio
+    {
+        public static List<MMDevice> GetSoundDevices()
+        {
+            List<MMDevice> devices = new List<MMDevice>();
+            using (var mmdeviceEnumerator = new MMDeviceEnumerator())
+            {
+                using (var mmdeviceCollection = mmdeviceEnumerator.EnumAudioEndpoints(DataFlow.Render, DeviceState.Active))
+                {
+                    foreach (var device in mmdeviceCollection)
+                    {
+                        devices.Add(device);
+                    }
+                }
+            }
+            return devices;
+        }
+
+        public static MMDevice GetDefaultSoundDevice()
+        {
+            using (var enumerator = new MMDeviceEnumerator())
+            {
+                return enumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Console);
+            }
+        }
+    }
+
+    public class MusicPlayerCSCore : Component
     {
         private ISoundOut _soundOut;
         private IWaveSource _waveSource;
@@ -22,7 +49,7 @@ namespace MP3_SQL_Lib.helper
             {
                 if (_soundOut != null)
                     _soundOut.Stopped += value;
-            }
+            }  
             remove
             {
                 if (_soundOut != null)
@@ -117,13 +144,29 @@ namespace MP3_SQL_Lib.helper
         {
             if (_soundOut != null)
             {
-                _soundOut.Dispose();
-                _soundOut = null;
+                try
+                {
+                    _soundOut.Dispose();
+                    _soundOut = null;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Mediaplayer: Dispose soundout: " + ex.Message);
+                    Console.WriteLine("vervolg stacktrace: " + ex.StackTrace);
+                }
             }
             if (_waveSource != null)
             {
-                _waveSource.Dispose();
-                _waveSource = null;
+                try
+                {
+                    _waveSource.Dispose();
+                    _waveSource = null;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Mediaplayer: Dispose wavesource: " + ex.Message);
+                    Console.WriteLine("vervolg stacktrace: " + ex.StackTrace);                    
+                } 
             }
         }
 

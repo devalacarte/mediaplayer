@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="SoundCard" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">3</Value>
+      <Value Profile="(Default)">-1</Value>
     </Setting>
     <Setting Name="LastPlayedSong" Type="MP3_SQL_Lib.model.Song" Scope="User">
       <Value Profile="(Default)" />
@@ -13,6 +13,9 @@
     </Setting>
     <Setting Name="SaveImages" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="SoundCardName" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

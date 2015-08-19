@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Messaging;
 using MP3_SQL_Lib.model;
 using System;
 using System.Collections.Generic;
@@ -37,8 +38,12 @@ namespace MP3_SQL_Lib.ViewModel
         public RelayCommand ViewLoaded { get { return _viewLoaded ?? (_viewLoaded = new RelayCommand(ControlLoaded)); } }
         private void ControlLoaded()
         { _appvm = App.Current.MainWindow.DataContext as ApplicationVM; }
-       
+
+        private RelayCommand<Artist> _playArtistCommand;
+        public RelayCommand<Artist> PlayArtistCommand { get { return _playArtistCommand ?? (_playArtistCommand = new RelayCommand<Artist>((ar) => PlayArtistClicked(ar))); } }
         
+        private RelayCommand<Artist> _viewArtistDetailCommand;
+        public RelayCommand<Artist> ViewArtistDetailCommand { get { return _viewArtistDetailCommand ?? (_viewArtistDetailCommand = new RelayCommand<Artist>((ar) => ViewArtistDetailClicked(ar))); } }
         
         private ApplicationVM _appvm;
         public BrowseArtistsVM()
@@ -46,6 +51,15 @@ namespace MP3_SQL_Lib.ViewModel
 
         }
 
+        private void PlayArtistClicked(Artist ar)
+        {
+            Messenger.Default.Send(new NotificationMessage<Artist>(ar, MVVMMessages.Messages.ARTIST_PLAY));
+        }
+
+        private void ViewArtistDetailClicked(Artist ar)
+        {
+            Messenger.Default.Send(new NotificationMessage<Artist>(ar, MVVMMessages.Messages.ARTIST_VIEW));
+        }
 
     }
 }

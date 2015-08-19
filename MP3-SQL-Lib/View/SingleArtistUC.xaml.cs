@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Messaging;
 using MP3_SQL_Lib.model;
 using MP3_SQL_Lib.ViewModel;
 using System;
@@ -82,7 +83,7 @@ namespace MP3_SQL_Lib.View
         }
         public void Play()
         {
-            MessageBox.Show("mhuahahuahuah clicked");
+            Messenger.Default.Send(new NotificationMessage<Artist>(this.Artist, MVVMMessages.Messages.ARTIST_PLAY));
         }
 
         void SetValue(DependencyProperty property, object value, [System.Runtime.CompilerServices.CallerMemberName] string p = null)
