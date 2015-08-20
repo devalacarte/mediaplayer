@@ -166,8 +166,22 @@ namespace MP3_SQL_Lib.ViewModel
         /// </summary>
         public int SliderVolume
         {
-            get { _sldVolume = (Properties.Settings.Default.Volume >= 0) ? (Properties.Settings.Default.Volume) : ((int)Math.Ceiling(Bass.BASS_GetVolume()))*100; ; return _sldVolume; }
-            set { _sldVolume = Properties.Settings.Default.Volume = value; Bass.BASS_SetVolume(_sldVolume / 100); OnPropertyChanged("SliderVolume"); Properties.Settings.Default.Save(); }
+            get { 
+                //_sldVolume = (Properties.Settings.Default.Volume >= 0) ? (Properties.Settings.Default.Volume) : ((int)Math.Ceiling(Bass.BASS_GetVolume()))*100; ; return _sldVolume; 
+                if (Properties.Settings.Default.Volume >= 0)
+                    _sldVolume = Properties.Settings.Default.Volume;
+                else
+                    _sldVolume = (int)Math.Ceiling(Bass.BASS_GetVolume()*100);
+                return _sldVolume;
+
+            }
+            set { 
+                _sldVolume = Properties.Settings.Default.Volume = value;
+                float f = (float)_sldVolume / 100;
+                if (!Bass.BASS_ChannelSetAttribute(_stream, BASSAttribute.BASS_ATTRIB_VOL, f))
+                    Console.WriteLine("PlayBarBASSVM: Error trying to set volume: {0}", Bass.BASS_ErrorGetCode().ToString());
+                OnPropertyChanged("SliderVolume"); 
+                Properties.Settings.Default.Save(); }
         }
 
 
@@ -305,7 +319,11 @@ namespace MP3_SQL_Lib.ViewModel
             if (_stream != 0)
             {
                 Bass.BASS_ChannelPlay(_stream, false); // play the channel
-                Messenger.Default.Send(new NotificationMessage<Song>(SelectedSong, MVVMMessages.Messages.MUSIC_NEW_SONG));
+                //bij iedere nieuwe stream moet de volume herzet worden, reset standaard
+                float volume = (float)_sldVolume / 100;
+                if (!Bass.BASS_ChannelSetAttribute(_stream, BASSAttribute.BASS_ATTRIB_VOL, volume))
+                    Console.WriteLine("PlayBarBASSVM: Error trying to set volume: {0}", Bass.BASS_ErrorGetCode().ToString());
+                Messenger.Default.Send(new NotificationMessage<Song>(SelectedSong, MVVMMessages.Messages.MUSIC_NEW_SONG)); //bericht zenden dat nieuw lied speelt voor titlebar
                 _updateTimer.Start();
                 //channelinfo
                 BASS_CHANNELINFO info = new BASS_CHANNELINFO();
@@ -318,7 +336,7 @@ namespace MP3_SQL_Lib.ViewModel
                 }
                 this.BtnPauseEnabled = true; this.BtnStopEnabled = true; this.BtnPlayEnabled = false;
 
-                //sends event when track is finished
+                //sends event when track is finished om volgende track af te spelen
                 Bass.BASS_ChannelSetSync(_stream, BASSSync.BASS_SYNC_END | BASSSync.BASS_SYNC_MIXTIME,0, _mySync, IntPtr.Zero);
             }
             else
@@ -381,6 +399,8 @@ namespace MP3_SQL_Lib.ViewModel
                 double remainingtime = totaltime - elapsedtime;
                 this.TimePlayed = Utils.FixTimespan(elapsedtime, "MMSS");
                 this.TimeTotal = Utils.FixTimespan(totaltime, "MMSS");
+                double perc = elapsedtime / totaltime * 100;
+                SliderTime = perc;
             }
         }
 
